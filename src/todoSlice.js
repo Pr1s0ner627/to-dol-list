@@ -16,28 +16,27 @@ const todoSlice=createSlice({
             state.opnTask=state.opnTask.filter(key=>key.id!==action.payload);
             state.cmpTask=state.cmpTask.filter(key=>key.id!==action.payload);
         },
-        recComplete:(state,action)=>{
-            for(var i=0; i<state.opnTask.length; i++)
-            {
-                if(state.opnTask[i].id==action.payload)
-                {
-                    state.opnTask[i].status=false;
-                    state.opnTask=state.opnTask.filter(key=>key.id!==action.payload);
-                    state.cmpTask.push({id:Date.now(),work:action.payload, status:true});
-                }
-            }
-        },
-        recOpen:(state,action)=>{
-            for(var i=0; i<state.cmpTask.length; i++)
-            {
-                if(state.cmpTask[i].id==action.payload)
-                {
-                    state.cmpTask[i].status=true;
-                    state.opnTask.push({id:Date.now(),work:action.payload, status:true});
-                    state.cmpTask=state.cmpTask.filter(key=>key.id!==action.payload);
-                }
-            }
-        },
+        recComplete: (state, action) => {
+            state.opnTask.forEach((task, index) => {
+              if (task.id === action.payload) {
+                state.opnTask[index].status = false;
+                const completedTask = state.opnTask.splice(index, 1)[0];
+                completedTask.status = true;
+                state.cmpTask.push(completedTask);
+              }
+            });
+          },
+          
+          recOpen: (state, action) => {
+            state.cmpTask.forEach((task, index) => {
+              if (task.id === action.payload) {
+                state.cmpTask[index].status = false;
+                const reopenedTask = state.cmpTask.splice(index, 1)[0];
+                reopenedTask.status = true;
+                state.opnTask.push(reopenedTask);
+              }
+            });
+          },
 
         recUpdate:(state,action)=>{
             for(var i=0; i<state.opnTask.length; i++)

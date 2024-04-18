@@ -59,7 +59,7 @@ const App=()=>{
     return(
       <tr>
         <td>{tk}.</td>
-        <td>{key.status ? <span>{key.work}</span> : < span style={{color:"green"}}>{key.work}</span>}</td>
+        <td>{key.status ? <span>{key.work}</span> : <span style={{color:"red"}}>{key.work}</span>}</td>
         <td><button onClick={()=>{myDel(key.id)}}>Close Task</button></td>
         <td><button onClick={()=>{taskOpen(key.id)}}>Re-Open</button></td>
       </tr>
